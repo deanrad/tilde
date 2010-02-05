@@ -8,7 +8,6 @@ l () { $* | less ; }
 
 #### Common CNU Aliases #####
 alias selstart='java -jar /home/dradcliffe/selRC1/selenium-remote-control-1.0-SNAPSHOT/selenium-server-1.0-SNAPSHOT/selenium-server.jar'
-alias pgadmin='pgadmin3'
 alias dingo='espeak -s 110 -p 35 "Deengo ayt mah bay be"'
 
 #### Dean Dev Aliases #####

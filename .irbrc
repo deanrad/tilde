@@ -5,11 +5,33 @@ require 'rubygems'
 end
 
 require 'irb/ext/save-history'
+require 'irb/completion'
 IRB.conf[:SAVE_HISTORY] = 200
 IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.irb-history"
 
+# Uncomment to enable Wirble - results may vary
 # Wirble.init and Wirble.colorize
 
+
+# These quick modules/patches let you inspect classes in console easier
+module MyClassMethodIntrospection
+  def methods_excluding_object
+    (self.methods - Object.methods).sort
+  end
+  def methods_excluding_ancestors
+    (self.methods - self.superclass.methods).sort
+  end
+end
+module MyModuleMethodIntrospection
+  def methods_excluding_object
+    (self.instance_methods).sort
+  end
+  def methods_excluding_ancestors
+    (self.instance_methods - (self.included_modules.map(&:instance_methods).reduce(&:+) || []) ).sort
+  end
+end
+Class.send(:include, MyClassMethodIntrospection)
+Module.send(:include, MyModuleMethodIntrospection)
 
 ####### Fast inline RI ######
 SLOW_INLINE_RI = false # try toggling - your milage may very
