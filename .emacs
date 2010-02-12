@@ -43,6 +43,7 @@
 
 ;;;;;;;; dean modules ;;;;;;;;
 (add-to-list 'load-path "~/.elisp")
+(add-to-list 'load-path "~/.emacs.d")
 (require 'magit)
 (require 'redo)
 (require 'yaml-mode)
