@@ -1,3 +1,6 @@
+# gems are good
+export PATH=$PATH:/var/lib/gems/1.8/bin
+
 alias sshvm="ssh -X cnuapp@vbox"
 alias ll='ls -l'
 alias la='ls -A'
