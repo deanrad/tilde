@@ -31,16 +31,6 @@
   ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "black" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 108 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
 
-;;;;;;;; dean ruby stuff ;;;;;;;
-;;(setf ruby-program-name "irb --inf-ruby-mode")
-;;(require 'inf-ruby)
-;temporary - pending ruby coolness
-(add-to-list 'auto-mode-alist '("\\.rjs$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.org$" . org-mode)) 
-
 ;;;;;;;; dean modules ;;;;;;;;
 (add-to-list 'load-path "~/.elisp")
 (add-to-list 'load-path "~/.emacs.d")
@@ -55,10 +45,25 @@
 (require 'rspec-mode)
 ; (load "nxhtml/autostart.el")
 
+;;;;;;;; dean ruby stuff ;;;;;;;
+;;(setf ruby-program-name "irb --inf-ruby-mode")
+;;(require 'inf-ruby)
+;temporary - pending ruby coolness
+(add-to-list 'auto-mode-alist '("\\.rjs$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.spec$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.rspec$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode)) 
+
 ;;;;;;;; experimental stuff ;;;;;;;;;
-;;(load-file "weblogger.el")
-;; (load "weblogger.el")
-;; (global-set-key "\C-cbs" 'weblogger-start-entry)
+(require 'inf-ruby)
+(autoload 'run-ruby "inf-ruby" "Run an inferior Ruby process")
+(autoload 'inf-ruby-keys "inf-ruby" "Set local key defs for inf-ruby in ruby-mode")
+(add-hook 'ruby-mode-hook '(lambda () (inf-ruby-keys)))
+(setf ruby-program-name "ssh dradcliffe-ag bash -c 'cd -P /export/web/cnuapp 1>/dev/null 2>&1 && script/console --inf-ruby-mode'")
+
 
 ;;;;;;;; dean keyboard shortcuts (with comments) ;;;;;;;;
 ;; (global-set-key (kbd "<escape>")      'keyboard-escape-quit) ; fuck the emacs notion that i have to type Esc Esc Esc or Ctrl-G!

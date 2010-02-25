@@ -1,13 +1,12 @@
 # gems are good
 export PATH=$PATH:/var/lib/gems/1.8/bin
 
-alias sshvm="ssh -X cnuapp@vbox"
 alias ll='ls -l'
 alias la='ls -A'
 alias md='mkdir'
 
 # runs its arguments through less
-l () { $* | less ; }
+# l () { $* | less ; }
 
 #### Common CNU Aliases #####
 alias selstart='java -jar /home/dradcliffe/selRC1/selenium-remote-control-1.0-SNAPSHOT/selenium-server-1.0-SNAPSHOT/selenium-server.jar'
@@ -21,9 +20,10 @@ alias wtf='time wtf' # lets keep tabs on its runtime, and keep it under 10 secon
 alias gs="git status"
 alias stats='rake stats > doc/stats.txt'
 alias fastri="fastri-server -a 192.168.56.0/24 -s 192.168.56.1"
+alias killpidgin="~/dradcliffe/script/bin/killpidgin.sh"
 
-alias sshfsvm='sshfs cnuapp@dradcliffe-hg:/export/web /export/web -o allow_other -o uid=1000 -o workaround=rename'
-alias sshvm='ssh cnuapp@dradcliffe-hg'
+alias sshfsvm='sshfs cnuapp@dradcliffe-ag.dev:/export/web /export/web -o allow_other -o uid=1000 -o workaround=rename'
+alias sshvm='ssh dradcliffe-ag.dev'
 
 # alias sshfsvm='sshfs cnuapp@dradcliffe-au:/export/web /export/web -o allow_other -o uid=1000 -o workaround=rename'
 # alias sshvm='ssh cnuapp@dradcliffe-au'

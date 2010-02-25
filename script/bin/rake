@@ -1,0 +1,31 @@
+#!/usr/bin/ruby
+# My intercept for rake to allow running rspec-mode in emacs and turning
+# its command-line invocations of local rake spec into remote invocations
+# of spec -X 
+# Env vars: REMOTE_SPEC_SERVER=the_server_to_ssh
+
+# Lets see where we're at
+# env && echo
+
+require 'timeout'
+
+rake_args= ARGV.join(' ')
+remote_spec_server      = ENV["REMOTE_SPEC_SERVER"] 
+
+if remote_spec_server != "" && ARGV[0]=="spec"
+    puts "REMOTE_SPEC_SERVER var passed"
+    if rake_args =~ /SPEC=(\S+)\s+SPEC_OPTS=(.*)/
+	spec_file, spec_opts = $1, $2
+    end
+    cmd = "spec -X #{spec_file} #{spec_opts}"
+    rem = "ssh #{remote_spec_server} '#{cmd}'"
+    puts rem
+    Timeout::timeout(7) do
+      system rem
+    end
+else
+    system "/gems/../bin/rake #{rake_args}"
+end
+
+
+

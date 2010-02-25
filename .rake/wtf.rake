@@ -32,4 +32,12 @@ task :wtf do
       gitmsg = "NO UNPUSHED COMMITS"
   end
   puts gitmsg
+
+  system "rake test 2>&1 1> /dev/null"
+  if $? == 0
+    puts "TEST SUITE PASSING"
+  else
+    puts "TESTS SUITE FAILING !!!"
+  end
+
 end
