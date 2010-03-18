@@ -16,17 +16,24 @@ alias dingo='espeak -s 110 -p 35 "Deengo ayt mah bay be"'
 alias relinksql='ln -s /var/run/mysqld/mysqld.sock /tmp/mysql.sock'
 alias vpn='sudo /etc/init.d/vpnclient_init start; vpnclient connect CNUVPN'
 alias cew='cd /export/web'
-alias wtf='time wtf' # lets keep tabs on its runtime, and keep it under 10 secondsbg
+alias wtf='rake -g wtf' # lets keep tabs on its runtime, and keep it under 10 secondsbg
 alias gs="git status"
 alias stats='rake stats > doc/stats.txt'
 alias fastri="fastri-server -a 192.168.56.0/24 -s 192.168.56.1"
 alias killpidgin="~/dradcliffe/script/bin/killpidgin.sh"
 
-alias sshfsvm='sshfs cnuapp@dradcliffe-ag.dev:/export/web /export/web -o allow_other -o uid=1000 -o workaround=rename'
-alias sshvm='ssh dradcliffe-ag.dev'
+alias startlenny="VBoxManage startvm lenny"
+alias savelenny="VBoxManage controlvm lenny savestate"
+alias startxp="VBoxManage startvm XP"
+alias savexp="VBoxManage controlvm XP savestate"
+alias startdapper="VBoxManage startvm dapper"
+alias savedapper="VBoxManage controlvm dapper savestate"
 
-# alias sshfsvm='sshfs cnuapp@dradcliffe-au:/export/web /export/web -o allow_other -o uid=1000 -o workaround=rename'
-# alias sshvm='ssh cnuapp@dradcliffe-au'
+# alias sshfsvm='sshfs cnuapp@dradcliffe-ag.dev:/export/web /export/web -o allow_other -o uid=1000 -o workaround=rename'
+# alias sshvm='ssh dradcliffe-ag.dev'
+
+alias sshfsvm='sshfs cnuapp@dradcliffe-au:/export/web /export/web -o allow_other -o uid=1000 -o workaround=rename'
+alias sshvm='ssh cnuapp@dradcliffe-au'
 
 # alias sshvm="ssh -X cnuapp@vbox"
 # alias sshfsvm='sudo sshfs cnuapp@vbox:/export/web /export/vm -o allow_other -o uid=1000 -o workaround=rename'

@@ -41,3 +41,12 @@ task :wtf do
   end
 
 end
+
+desc "Sets config in your env files: rake config cache_classes=(true|false)"
+task :config do
+  puts "Setting config.cache_classes to #{ENV['cache_classes']}"
+  cmd= "sed -i 's/config.cache_classes = \\w*/config.cache_classes = #{ENV['cache_classes']}/g' config/environments/development.rb"
+  # puts cmd
+  system cmd
+  puts "Done."
+end

@@ -13,6 +13,7 @@
  '(column-number-mode t)
  '(comint-use-prompt-regexp t)
  '(cua-mode t nil (cua-base))
+ '(exec-path (quote ("/home/dradcliffe/script/bin" "/usr/local/sbin" "/usr/local/bin" "/usr/sbin" "/usr/bin" "/sbin" "/bin" "/usr/games" "/usr/lib/emacs/23.1/x86_64-linux-gnu")))
  '(inhibit-startup-screen t)
  '(iswitchb-mode t)
  '(iswitchb-use-frame-buffer-list t)
@@ -37,7 +38,7 @@
 (require 'magit)
 (require 'redo)
 (require 'yaml-mode)
-; (require 'haml-mode)
+(require 'haml-mode)
 
 ; experimental
 (require 'mode-compile)
@@ -58,11 +59,24 @@
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode)) 
 
 ;;;;;;;; experimental stuff ;;;;;;;;;
+;; (setenv "PATH" (concat "/home/dradcliffe/script/bin:" (getenv "PATH")))
+;; (setenv "REMOTE_SPEC_SERVER" "dradcliffe-ag.dev")
+(autoload 'js2-mode "js2" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
 (require 'inf-ruby)
 (autoload 'run-ruby "inf-ruby" "Run an inferior Ruby process")
 (autoload 'inf-ruby-keys "inf-ruby" "Set local key defs for inf-ruby in ruby-mode")
 (add-hook 'ruby-mode-hook '(lambda () (inf-ruby-keys)))
-(setf ruby-program-name "ssh dradcliffe-ag bash -c 'cd -P /export/web/cnuapp 1>/dev/null 2>&1 && script/console --inf-ruby-mode'")
+;; (setf ruby-program-name "ssh dradcliffe-ag bash -c 'cd -P /export/web/cnuapp 1>/dev/null 2>&1 && script/console --inf-ruby-mode'")
+(setf ruby-program-name "bash -c cd /home/chicagogrooves/src/chess_on_rails && script/console --inf-ruby-mode")
+
+;;;;; music stuff (lilypond) ;;;;;;;
+(autoload 'LilyPond-mode "lilypond-mode")
+(setq auto-mode-alist
+      (cons '("\\.ly$" . LilyPond-mode) auto-mode-alist))
+
+(add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
 
 
 ;;;;;;;; dean keyboard shortcuts (with comments) ;;;;;;;;
