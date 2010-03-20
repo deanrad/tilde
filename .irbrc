@@ -1,17 +1,26 @@
 # -*- ruby -*- ## use ruby-mode in editors
 require 'rubygems'
-%w{ wirble map_by_method }.each do |gem|
-  require gem rescue $stderr.puts "#{gem} not available"
-end
 
+# cool gems i like to have on hand
+cool_gems = %w{ 
+   wirble 
+   map_by_method 
+}
+unavail_gems = []
+cool_gems.each do |gem|
+  begin
+    require gem  
+  rescue LoadError=>ex
+    unavail_gems << gem
+  end
+end
+puts "To install these gems: \n" + unavail_gems.map{|g| "sudo gem install #{g}"}.join("\n") unless unavail_gems.empty?
+
+# Get history ! (not working on the dell 4400 right now :(  )
 require 'irb/ext/save-history'
 require 'irb/completion'
 IRB.conf[:SAVE_HISTORY] = 200
 IRB.conf[:HISTORY_FILE] = "#{ENV['HOME']}/.irb-history"
-
-# Uncomment to enable Wirble - results may vary
-# Wirble.init and Wirble.colorize
-
 
 # These quick modules/patches let you inspect classes in console easier
 module MyClassMethodIntrospection
@@ -30,15 +39,38 @@ module MyModuleMethodIntrospection
     (self.instance_methods - (self.included_modules.map(&:instance_methods).reduce(&:+) || []) ).sort
   end
 end
+module MyObjectMethodIntrospection
+  def methods_excluding_object
+    (self.methods - Object.methods).sort
+  end
+  def methods_excluding_ancestors
+    (self.methods - self.class.superclass.methods).sort
+  end
+end
 Class.send(:include, MyClassMethodIntrospection)
 Module.send(:include, MyModuleMethodIntrospection)
+Object.send(:include, MyObjectMethodIntrospection)
+
 
 ####### Fast inline RI ######
-SLOW_INLINE_RI = false # try toggling - your milage may very
+# fastri available ? 
+FRI_EXEC = 'qri' # 'fri' to query a running server (fastest), 'qri' for no server dependency, ri -T otherwise
+fri_test = `#{FRI_EXEC} Enumerable#inject 2> /dev/null`
+case $?
+when 0   # good
+  $GOTFASTRI = true
+when 127 # command not found
+  puts "Fastri not found\n=>sudo gem install fastri"
+  FRI_EXEC = 'ri -T'
+when 255 # server not running
+  puts "Fastri found, but server not running.\n=>Type fastri Object at a prompt to see how to remedy."
+  FRI_EXEC = 'qri'
+end
 
+if $GOTFASTRI || true
 module Kernel
   def ri(arg)
-    puts `fri "#{arg}"`
+    puts `#{FRI_EXEC} "#{arg}"`
   end
   private :ri
 end
@@ -54,7 +86,7 @@ class Object
     end
     candidates.each do |candidate|
       #puts "TRYING #{candidate}"
-      desc = `fri '#{candidate}'`
+      desc = `#{FRI_EXEC} '#{candidate}'`
       unless desc.chomp == "nil"
       # uncomment to use ri (and some patience)
       # desc = `ri -T '#{candidate}' 2>/dev/null` if SLOW_INLINE_RI
@@ -117,4 +149,4 @@ RICompletionProc = proc{|input|
 #Readline.basic_word_break_characters= " \t\n\"\\'`><=;|&{("
 Readline.basic_word_break_characters= " \t\n\\><=;|&"
 Readline.completion_proc = RICompletionProc
-
+end # if $GOTFASTRI
