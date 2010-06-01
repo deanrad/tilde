@@ -1,0 +1,6 @@
+#!/bin/sh
+# File ganked from: http://bc.tech.coop/blog/070225.html
+/usr/bin/emacsclient -n "$1" 2> /dev/null
+if [ $? -ne 0 ]; then
+   open -a /Applications/Aquamacs.app "$1"
+fi
