@@ -1,0 +1,8 @@
+ln -s ~/src/tilde/dotfiles/bash_aliases ~/.bash_aliases
+
+#cd dotfiles
+#for f in *
+#do
+#  # rm "~/.$f"
+#  ln -s "~/src/tilde/dotfiles/.$f" "~/.$f"
+#done

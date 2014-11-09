@@ -1,0 +1,14 @@
+export NVM_DIR="/Users/dradcliffe/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+export PATH=./bin:/usr/local/bin:$PATH
+export PATH=$PATH:/usr/local/lib/node_modules/bin
+export PATH=$PATH:/usr/local/sbin
+export PATH=$PATH:~/src/tilde/bin
+export OLAB_HOME=~/olab/code
+
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+  . $(brew --prefix)/etc/bash_completion
+fi
+
+source /Users/dradcliffe/.bash_aliases
