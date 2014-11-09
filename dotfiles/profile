@@ -6,9 +6,13 @@ export PATH=$PATH:/usr/local/lib/node_modules/bin
 export PATH=$PATH:/usr/local/sbin
 export PATH=$PATH:~/src/tilde/bin
 export OLAB_HOME=~/olab/code
+export ARCHFLAGS="-arch x86_64"
 
 if [ -f $(brew --prefix)/etc/bash_completion ]; then
   . $(brew --prefix)/etc/bash_completion
 fi
+
+export GIT_PS1_SHOWDIRTYSTATE=1
+export PS1="\[\033[01;34m\]\[\033[01;32m\]\w\[\033[00;33m\]\$(__git_ps1 \" (%s)\") \[\033[01;36m\]\$\[\033[00m\] "
 
 source /Users/dradcliffe/.bash_aliases
