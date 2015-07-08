@@ -1,18 +1,15 @@
-#alias subl=atom
-alias e=subl
-alias mate=subl
 alias edit=subl
 alias eprof="edit ~/.profile"
 alias sprof=". ~/.bash_profile"
 alias nrun="npm run"
-
-alias surr="cd ~/src/surrogate-pop"
-alias banjar="cd ~/src/deanius/banjar"
-alias cdbaby="cd ~/src/deanius/cordova-baby"
+alias ntest="npm test"
+alias nstart="npm start"
+alias ns="(([ -f package.json ] || [ -f ../package.json ]) && npm start) || ([ -d .meteor ] && meteor) || meteor test-packages ./"
 
 alias ll="ls -l"
 
 alias gg="git grep"
+alias ggi="git grep -i"
 alias gb="git branch"
 alias gbr="git fetch origin && git branch --remote"
 alias gc="git clean -id"
@@ -22,17 +19,15 @@ alias gca="git commit -a"
 alias gcm="git commit -m"
 alias gcmn="git commit -n -m"
 alias gcam="git commit -a -m"
-alias gco="git checkout" #&& __git_complete gco _git_checkout
-alias gcd="git fetch && git checkout" && __git_complete gcd _git_checkout
+alias gcamt="git commit -a -m tweak"
+alias gcd="git fetch && git checkout -q" && __git_complete gcd _git_checkout
 alias gcdm="git checkout master"
+alias gcdb="git checkout -b"
 alias gcdt="git checkout --track"
-alias gcob="git checkout -b" #&& __git_complete gcob _git_checkout
-alias gmkd="git checkout -b" #&& __git_complete gmkd _git_checkout
 alias gl1="git log -1"
 alias gl2="git log -2"
 alias gl3="git log -3"
 alias gmergetheirs="git merge -s recursive -X theirs"
-alias s="git status"
 alias gs="git status"
 alias gd="git diff" #&& __git_complete gd _git_checkout
 alias gdc="git diff --cached"
@@ -45,6 +40,9 @@ alias brake="bundle exec rake"
 alias brspec="bundle exec rspec"
 #alias upit="git pull && bundle && rake db:migrate db:test:prepare"
 alias upit="git pull && npm install && npm test"
+
+alias dcup="docker-compose up --allow-insecure-ssl"
+alias dcpull="docker-compose pull --allow-insecure-ssl"
 
 function tickle {
     if [ -n "$1" ] && [ ! -f "$1" ]; then
@@ -74,3 +72,7 @@ function touch {
     fi
 }
 
+function termtitle {
+    echo -ne "\033]0;$1\007"
+}
+alias tt="termtitle"

@@ -1,5 +1,21 @@
+################ NODE ################
 export NVM_DIR="/Users/dradcliffe/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+nvm use 0.10
+
+############### RBENV ################
+eval "$(rbenv init -)"
+
+############### DOCKER ###############
+# boot2docker up
+# $(boot2docker shellinit) &> /dev/null
+export DOCKER_HOST=tcp://192.168.59.103:2375
+
+################ JAVA ################
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home/
+
+################ REST ################
+ssh-add /Users/dradcliffe/.ssh/id_rsa
 
 export PATH=./bin:/usr/local/bin:$PATH
 export PATH=$PATH:/usr/local/lib/node_modules/bin
@@ -16,3 +32,8 @@ export GIT_PS1_SHOWDIRTYSTATE=1
 export PS1="\[\033[01;34m\]\[\033[01;32m\]\w\[\033[00;33m\]\$(__git_ps1 \" (%s)\") \[\033[01;36m\]\$\[\033[00m\] "
 
 source /Users/dradcliffe/.bash_aliases
+
+export PATH="$PATH:$HOME/.rvm/bin:./node_modules/.bin" # Add RVM to PATH for scripting
+export EDITOR="atom --wait"
+
+export DAQ_MSSQL_PWD='w5y3aPOZLQLGjO9Lmcoy'
