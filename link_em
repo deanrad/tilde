@@ -1,4 +1,6 @@
 ln -s ~/src/tilde/dotfiles/bash_aliases ~/.bash_aliases
+ln -s ~/src/tilde/dotfiles/profile ~/.profile
+ln -s ~/src/tilde/dotfiles/vimrc ~/.vimrc
 
 #cd dotfiles
 #for f in *
