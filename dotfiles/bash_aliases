@@ -2,6 +2,7 @@ alias edit=subl
 alias eprof="edit ~/.profile"
 alias sprof=". ~/.bash_profile"
 alias nrun="npm run"
+alias nlint="npm run lint"
 alias ntest="npm test"
 alias ns="npm start"
 
@@ -9,23 +10,29 @@ alias ll="ls -l"
 
 alias gg="git grep -n"
 alias ggi="git grep -i -n"
+alias ggmm="git grep '<<<'"                                        # git grep merge markers
 alias grii="git rebase -i HEAD^^"
 alias griii="git rebase -i HEAD^^^"
 alias griiii="git rebase -i HEAD^^^^"
-alias gro='git reset --hard origin/`git name-rev --name-only HEAD`'
+alias gro='git fetch; git reset --hard @{upstream}; git clean -f'
+alias grc='git rebase --continue'
 alias gpause="git commit --allow-empty -m Pause"
 alias gresume="git commit --allow-empty -m Resume"
 alias igrep="grep -i"
 alias grepi="grep -i"
 alias gb="git branch"
+alias gcb="git symbolic-ref HEAD --short" # git current branch
+alias glo="git fetch; git log origin/`git symbolic-ref HEAD --short`"
+alias gbc="git branch --contains"
 alias gbr="git fetch origin && git branch --remote"
 alias gc="git clean -id"
 alias gap="git add -p"
-alias gad="git add . && git status"
-alias gca="git commit -a"
+alias gad="git add . && git diff --cached && git status"
 alias gcm="git commit -m"
+alias gcamend="git commit --amend"
+alias gcam="git add . && git commit -a -m"
+alias gcommit="git commit --no-edit"                                        # no arg commit - completes a merge
 alias gcmn="git commit -n -m"
-alias gcam="git commit -a -m"
 alias gcamt="git commit -a -m tweak"
 alias gcd="git fetch && git checkout -q" && __git_complete gcd _git_checkout
 alias gcdm="git checkout master"
@@ -40,9 +47,19 @@ alias gd="git diff" #&& __git_complete gd _git_checkout
 alias gdc="git diff --cached"
 alias gdy="git diff master@{yesterday}"
 alias gpush="git push"
+alias gpushnv="git push --no-verify"
 alias gpull="git pull"
 alias gpullr="git pull --rebase"
 alias grhh="git reset --hard HEAD"
+
+git_branch_matching() {
+  # pipefail: a lack of match in grep will fail the pipe
+  (set -o pipefail; find .git/refs/heads | grep $1 | sed -e 's/\.git\/refs\/heads\///g') ||
+  git branch -r | grep $1 | sed -e 's/origin\///g'
+}
+alias gbm=git_branch_matching
+alias gmb=git_branch_matching
+
 alias brake="bundle exec rake"
 alias brspec="bundle exec rspec"
 #alias upit="git pull && bundle && rake db:migrate db:test:prepare"
