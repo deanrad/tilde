@@ -4,9 +4,10 @@ alias sprof=". ~/.bash_profile"
 alias nrun="npm run"
 alias nlint="npm run lint"
 alias ntest="npm test"
-alias ns="npm start"
+alias ns="test -d .meteor && meteor npm start; test ! -d .meteor && npm start"
 
 alias ll="ls -l"
+alias du="du -h -d 1"
 
 alias gg="git grep -n"
 alias ggi="git grep -i -n"
@@ -27,13 +28,16 @@ alias gbc="git branch --contains"
 alias gbr="git fetch origin && git branch --remote"
 alias gc="git clean -id"
 alias gap="git add -p"
-alias gad="git add . && git diff --cached && git status"
+alias gad="git add . && git status"
+alias gadl="git add . && git diff --cached && git status"
 alias gcm="git commit -m"
 alias gcamend="git commit --amend"
-alias gcam="git add . && git commit -a -m"
+alias gcam="eslint --fix . && git add . && git commit -a -m"
+alias gwip="git add . && git commit -a -m WIP --no-verify"
 alias gcommit="git commit --no-edit"                                        # no arg commit - completes a merge
 alias gcmn="git commit -n -m"
 alias gcamt="git commit -a -m tweak"
+alias gco="git checkout" && __git_complete gcd _git_checkout
 alias gcd="git fetch && git checkout -q" && __git_complete gcd _git_checkout
 alias gcdm="git checkout master"
 alias gcdb="git checkout -b"
@@ -51,6 +55,7 @@ alias gpushnv="git push --no-verify"
 alias gpull="git pull"
 alias gpullr="git pull --rebase"
 alias grhh="git reset --hard HEAD"
+alias glog="git log --pretty=format:'%h %ad %s' --date=format:'%a %b-%d %R'"
 
 git_branch_matching() {
   # pipefail: a lack of match in grep will fail the pipe
