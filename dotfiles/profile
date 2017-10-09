@@ -37,7 +37,7 @@ export ARCHFLAGS="-arch x86_64"
 export GIT_PS1_SHOWDIRTYSTATE=1
 export PS1="\[\033[01;34m\]\[\033[01;32m\]\w\[\033[00;33m\]\$(__git_ps1 | sed -e '/feature/ s/feature\///g') \[\033[01;36m\]\$\[\033[00m\] "
 
-source /Users/deanius/.bash_aliases
+source ~/.bash_aliases
 
 export PATH="$PATH:$HOME/.rvm/bin:./node_modules/.bin" # Add RVM to PATH for scripting
 export EDITOR=vim
