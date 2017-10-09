@@ -1,17 +1,32 @@
-alias edit=subl
+alias edit=code
 alias eprof="edit ~/.profile"
 alias sprof=". ~/.bash_profile"
 alias nrun="npm run"
+alias nruns="npm run --silent"
 alias nlint="npm run lint"
-alias ntest="npm test"
+alias ntest="npm test && gwip"
 alias ns="test -d .meteor && meteor npm start; test ! -d .meteor && npm start"
 
+function termtitle {
+    echo -ne "\033]0;$1\007"
+}
+alias tt="termtitle"
+
+alias shell="tt SHELL; meteor shell"
+
 alias ll="ls -l"
+alias lf="nrun lint:fix || eslint --fix ."
 alias du="du -h -d 1"
+
+
+function upitfrom {
+    git checkout $1; git pull; git checkout -; git merge $1 -m "Merge branch '$1'"
+}
 
 alias gg="git grep -n"
 alias ggi="git grep -i -n"
 alias ggmm="git grep '<<<'"                                        # git grep merge markers
+alias grl="git reset HEAD^"                                        # git reset last (soft)
 alias grii="git rebase -i HEAD^^"
 alias griii="git rebase -i HEAD^^^"
 alias griiii="git rebase -i HEAD^^^^"
@@ -32,7 +47,7 @@ alias gad="git add . && git status"
 alias gadl="git add . && git diff --cached && git status"
 alias gcm="git commit -m"
 alias gcamend="git commit --amend"
-alias gcam="eslint --fix . && git add . && git commit -a -m"
+alias gcam="git add . && git commit -a -m"
 alias gwip="git add . && git commit -a -m WIP --no-verify"
 alias gcommit="git commit --no-edit"                                        # no arg commit - completes a merge
 alias gcmn="git commit -n -m"
@@ -51,11 +66,14 @@ alias gd="git diff" #&& __git_complete gd _git_checkout
 alias gdc="git diff --cached"
 alias gdy="git diff master@{yesterday}"
 alias gpush="git push"
+alias gwipush="git add . && git commit -a -m WIP --no-verify && git push"
 alias gpushnv="git push --no-verify"
 alias gpull="git pull"
 alias gpullr="git pull --rebase"
 alias grhh="git reset --hard HEAD"
 alias glog="git log --pretty=format:'%h %ad %s' --date=format:'%a %b-%d %R'"
+alias grb="find .git/refs/heads -type f | xargs ls -ltr | tail -7 | sed -e 's|.git/refs/heads/||g' | sort -r"
+alias gsal="git stash apply stash@{0}"  # git stash apply last
 
 git_branch_matching() {
   # pipefail: a lack of match in grep will fail the pipe
@@ -101,7 +119,6 @@ function touch {
     fi
 }
 
-function termtitle {
-    echo -ne "\033]0;$1\007"
-}
-alias tt="termtitle"
+alias sshadda="ssh-add -A"
+alias laststash="git stash apply stash@{0}"
+alias chromedebug="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222"

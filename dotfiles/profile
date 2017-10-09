@@ -19,7 +19,7 @@ eval "$(nodenv init -)"
 ################ JAVA ################
 
 ################ REST ################
-#ssh-add /Users/deanius/.ssh/id_rsa
+# ssh-add /Users/deanius/.ssh/id_rsa
 
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
@@ -42,3 +42,6 @@ source /Users/deanius/.bash_aliases
 export PATH="$PATH:$HOME/.rvm/bin:./node_modules/.bin" # Add RVM to PATH for scripting
 export EDITOR=vim
 export VISUAL=vim
+
+# Python / PIP / aws cli
+export PATH=~/.local/bin:$PATH
