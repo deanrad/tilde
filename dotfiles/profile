@@ -3,8 +3,6 @@
 # [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 # nvm use 4.2.1
 # nvm use 0.12
-# silly shutterstock
-export NODE_ENV=dev
 eval "$(nodenv init -)"
 
 ############### RUBY ################
@@ -20,6 +18,7 @@ eval "$(nodenv init -)"
 
 ################ REST ################
 # ssh-add /Users/deanius/.ssh/id_rsa
+ssh-add -A 2> /dev/null
 
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
@@ -35,7 +34,7 @@ export ARCHFLAGS="-arch x86_64"
 . `brew --prefix git`/etc/bash_completion.d/git-completion.bash
 
 export GIT_PS1_SHOWDIRTYSTATE=1
-export PS1="\[\033[01;34m\]\[\033[01;32m\]\w\[\033[00;33m\]\$(__git_ps1 | sed -e '/feature/ s/feature\///g') \[\033[01;36m\]\$\[\033[00m\] "
+export PS1="\[\033[01;34m\]\[\033[01;32m\]~\W\[\033[00;33m\]\$(__git_ps1 | sed -e '/feature/ s/feature\///g') \[\033[01;36m\]\$\[\033[00m\] "
 
 source ~/.bash_aliases
 
@@ -45,3 +44,4 @@ export VISUAL=vim
 
 # Python / PIP / aws cli
 export PATH=~/.local/bin:$PATH
+

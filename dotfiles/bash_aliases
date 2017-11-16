@@ -6,6 +6,8 @@ alias nruns="npm run --silent"
 alias nlint="npm run lint"
 alias ntest="npm test && gwip"
 alias ns="test -d .meteor && meteor npm start; test ! -d .meteor && npm start"
+alias npis="npm install && npm start"
+alias npiw="npm install && npm run watch"
 
 function termtitle {
     echo -ne "\033]0;$1\007"
@@ -119,6 +121,28 @@ function touch {
     fi
 }
 
+function activity {
+    local mod=`printf %02d $1`
+    local act=`printf %02d $2`
+    ls -d -1 01-Class-Content/$mod*/01-Activities/$act*$3
+}
+
+function lessonPlanSched {
+    local sched=$1
+    local week=`printf %02d $2`
+    local day=`printf %02d $3`
+    #        02-lesson-plans/full-time/01-Week/03-Day/03-Day-LessonPlan.md
+    ls -d -1 02-lesson-plans/$sched/$week-Week/$day-Day/$day-Day-LessonPlan.md
+}
+
+# Alias this to the one used most often
+alias lessonPlan="lessonPlanSched full-time"
+
+
+
 alias sshadda="ssh-add -A"
 alias laststash="git stash apply stash@{0}"
 alias chromedebug="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222"
+alias bnode="babel-node --presets es2015,stage-2"
+export WF="/Users/deanius/Desktop/WorkingFolder"
+alias nukeSource="rm -rf /Users/deanius/Desktop/WorkingFolder/react-practice/src"
