@@ -4,8 +4,8 @@ alias sprof=". ~/.bash_profile"
 alias nrun="npm run"
 alias nruns="npm run --silent"
 alias nlint="npm run lint"
-alias ntest="npm test && gwip"
-alias ns="test -d .meteor && meteor npm start; test ! -d .meteor && npm start"
+alias ntest="test -f Gemfile && rspec; test -d node_modules && npm test"
+alias ns="test -f Gemfile && ./bin/server; grep -q '\"dev\":' package.json && npm run dev || npm start"
 alias npis="npm install && npm start"
 alias npiw="npm install && npm run watch"
 
@@ -14,7 +14,10 @@ function termtitle {
 }
 alias tt="termtitle"
 
-alias shell="tt SHELL; meteor shell"
+# adds whats in the working tree to the previous commit
+function gadd {
+    LAST_COMMIT_MSG=`git log -1 --pretty=%B`; git reset HEAD^; gad; gcmnv "$LAST_COMMIT_MSG"
+}
 
 alias ll="ls -l"
 alias lf="nrun lint:fix || eslint --fix ."
@@ -45,10 +48,14 @@ alias gbc="git branch --contains"
 alias gbr="git fetch origin && git branch --remote"
 alias gc="git clean -id"
 alias gap="git add -p"
-alias gad="git add . && git status"
+alias gundo="git reset HEAD^"
+alias gad="git add ."
+alias gadd="git add . ; git commit --no-verify --amend --no-edit"
+alias gar="git add . && git diff --cached"
 alias gadl="git add . && git diff --cached && git status"
 alias gcm="git commit -m"
-alias gcamend="git commit --amend"
+alias gcmnv="git commit --no-verify -m"
+alias gcamend="git commit --no-verify --amend"
 alias gcam="git add . && git commit -a -m"
 alias gwip="git add . && git commit -a -m WIP --no-verify"
 alias gcommit="git commit --no-edit"                                        # no arg commit - completes a merge
@@ -63,7 +70,6 @@ alias gl1="git log -1"
 alias gl2="git log -2"
 alias gl3="git log -3"
 alias gmergetheirs="git merge -s recursive -X theirs"
-alias gs="git status"
 alias gd="git diff" #&& __git_complete gd _git_checkout
 alias gdc="git diff --cached"
 alias gdy="git diff master@{yesterday}"
@@ -76,7 +82,9 @@ alias grhh="git reset --hard HEAD"
 alias glog="git log --pretty=format:'%h %ad %s' --date=format:'%a %b-%d %R'"
 alias grb="find .git/refs/heads -type f | xargs ls -ltr | tail -7 | sed -e 's|.git/refs/heads/||g' | sort -r"
 alias gsal="git stash apply stash@{0}"  # git stash apply last
-
+alias grhc="git reset HEAD^" # git reset head-carrot :)
+alias gstart="git commit --no-verify --allow-empty -m _start"
+alias gstop="git commit --no-verify --allow-empty -m _stop"
 git_branch_matching() {
   # pipefail: a lack of match in grep will fail the pipe
   (set -o pipefail; find .git/refs/heads | grep $1 | sed -e 's/\.git\/refs\/heads\///g') ||
@@ -84,14 +92,8 @@ git_branch_matching() {
 }
 alias gbm=git_branch_matching
 alias gmb=git_branch_matching
+alias gs="git status; glog -2"
 
-alias brake="bundle exec rake"
-alias brspec="bundle exec rspec"
-#alias upit="git pull && bundle && rake db:migrate db:test:prepare"
-alias upit="git pull && npm install && npm test"
-
-alias dcup="docker-compose up --allow-insecure-ssl"
-alias dcpull="docker-compose pull --allow-insecure-ssl"
 
 function tickle {
     if [ -n "$1" ] && [ ! -f "$1" ]; then
@@ -121,28 +123,11 @@ function touch {
     fi
 }
 
-function activity {
-    local mod=`printf %02d $1`
-    local act=`printf %02d $2`
-    ls -d -1 01-Class-Content/$mod*/01-Activities/$act*$3
+pause(){
+ read -n1 -rsp $'Press any key to continue or Ctrl+C to exit...\n'
 }
 
-function lessonPlanSched {
-    local sched=$1
-    local week=`printf %02d $2`
-    local day=`printf %02d $3`
-    #        02-lesson-plans/full-time/01-Week/03-Day/03-Day-LessonPlan.md
-    ls -d -1 02-lesson-plans/$sched/$week-Week/$day-Day/$day-Day-LessonPlan.md
-}
-
-# Alias this to the one used most often
-alias lessonPlan="lessonPlanSched full-time"
-
-
+alias confirmPush="read -rsp $'OK. Press Enter to git push\n' && git push"
 
 alias sshadda="ssh-add -A"
-alias laststash="git stash apply stash@{0}"
 alias chromedebug="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222"
-alias bnode="babel-node --presets es2015,stage-2"
-export WF="/Users/deanius/Desktop/WorkingFolder"
-alias nukeSource="rm -rf /Users/deanius/Desktop/WorkingFolder/react-practice/src"
