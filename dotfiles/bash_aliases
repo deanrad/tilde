@@ -1,3 +1,4 @@
+echo "Loading .bash_aliases"
 alias edit=code
 alias eprof="edit ~/.profile"
 alias sprof=". ~/.bash_profile"
@@ -13,29 +14,39 @@ function termtitle {
     echo -ne "\033]0;$1\007"
 }
 alias tt="termtitle"
+alias ll="ls -l"
+alias lf="nrun lint:fix || eslint --fix ."
+alias du="du -h -d 1"
+
+function growl {
+    osascript -e "display notification \"$2\" with title \"$1\""
+}
 
 # adds whats in the working tree to the previous commit
 function gadd {
     LAST_COMMIT_MSG=`git log -1 --pretty=%B`; git reset HEAD^; gad; gcmnv "$LAST_COMMIT_MSG"
 }
 
-alias ll="ls -l"
-alias lf="nrun lint:fix || eslint --fix ."
-alias du="du -h -d 1"
-
-
-function upitfrom {
-    git checkout $1; git pull; git checkout -; git merge $1 -m "Merge branch '$1'"
+function gcdb {
+    git fetch
+    git push --no-verify origin HEAD:$1 2> /dev/null
+    git checkout -b $1 --track origin/$1
 }
+function upitfrom {
+    git fetch; git checkout $1 && git reset --hard @{upstream} && git clean -f && git checkout - && git rebase $1
+}
+alias updevelop="git checkout develop; git pull; gcd -"
 
 alias gg="git grep -n"
 alias ggi="git grep -i -n"
+alias gri="git rebase -i"
 alias ggmm="git grep '<<<'"                                        # git grep merge markers
 alias grl="git reset HEAD^"                                        # git reset last (soft)
 alias grii="git rebase -i HEAD^^"
 alias griii="git rebase -i HEAD^^^"
 alias griiii="git rebase -i HEAD^^^^"
-alias gro='git fetch; git reset --hard @{upstream}; git clean -f'
+alias gro='git fetch; git merge-base --is-ancestor HEAD @{upstream} && git pull || git reset --hard @{upstream};'
+alias gra="git rebase --abort"
 alias grc='git rebase --continue'
 alias gpause="git commit --allow-empty -m Pause"
 alias gresume="git commit --allow-empty -m Resume"
@@ -53,29 +64,31 @@ alias gad="git add ."
 alias gadd="git add . ; git commit --no-verify --amend --no-edit"
 alias gar="git add . && git diff --cached"
 alias gadl="git add . && git diff --cached && git status"
-alias gcm="git commit -m"
 alias gcmnv="git commit --no-verify -m"
 alias gcamend="git commit --no-verify --amend"
+alias gcm="git commit -m"
+alias gcsm='git commit -m "`git log --oneline --format=%B -n 1 HEAD | head -n 1`"'
 alias gcam="git add . && git commit -a -m"
-alias gwip="git add . && git commit -a -m WIP --no-verify"
 alias gcommit="git commit --no-edit"                                        # no arg commit - completes a merge
 alias gcmn="git commit -n -m"
 alias gcamt="git commit -a -m tweak"
-alias gco="git checkout" && __git_complete gcd _git_checkout
-alias gcd="git fetch && git checkout -q" && __git_complete gcd _git_checkout
+alias gco="git checkout" # && __git_complete gcd _git_checkout
+alias gcd="git fetch && git checkout -q" # && __git_complete gcd _git_checkout
+alias gcp="git cherry-pick"
 alias gcdm="git checkout master"
-alias gcdb="git checkout -b"
 alias gcdt="git checkout --track"
 alias gl1="git log -1"
 alias gl2="git log -2"
 alias gl3="git log -3"
+alias glb="git for-each-ref --sort=-committerdate --count=10 --format='%(refname:short)' refs/heads/"
 alias gmergetheirs="git merge -s recursive -X theirs"
 alias gd="git diff" #&& __git_complete gd _git_checkout
 alias gdc="git diff --cached"
 alias gdy="git diff master@{yesterday}"
-alias gpush="git push"
+alias gpush="nrun format:check && git push"
+alias gpushf="git push -f"
 alias gwipush="git add . && git commit -a -m WIP --no-verify && git push"
-alias gpushnv="git push --no-verify"
+alias gpushnv="nrun format:check && git push --no-verify"
 alias gpull="git pull"
 alias gpullr="git pull --rebase"
 alias grhh="git reset --hard HEAD"
@@ -92,8 +105,23 @@ git_branch_matching() {
 }
 alias gbm=git_branch_matching
 alias gmb=git_branch_matching
-alias gs="git status; glog -2"
+alias gs="git status; git log -3 --oneline"
 
+apply_stash_by_name() {
+    git stash apply $(stash^{/$1})
+}
+gwip() {
+  msg=$(echo WIP $1)
+  git add . && git commit -a -m "${msg}" --no-verify
+}
+gwipm() {
+  git add . && git commit -a -m "$1" --no-verify
+}
+
+gclm() {
+    prefix=$(git log --oneline --format=%B -n 1 HEAD | head -n 1 | cut -f 1 -d ' ')
+    git commit -m "$prefix $1" -n
+}
 
 function tickle {
     if [ -n "$1" ] && [ ! -f "$1" ]; then
@@ -131,3 +159,28 @@ alias confirmPush="read -rsp $'OK. Press Enter to git push\n' && git push"
 
 alias sshadda="ssh-add -A"
 alias chromedebug="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222"
+alias upit="git pull; yarn"
+alias jestnc="jest --coverage=false"
+alias dc="docker-compose"
+function showsha() {
+    echo "Git SHA: " $(git log --oneline -1 | cut -d ' ' -f 1)
+}
+
+function killport() {
+    kill -9 `/usr/sbin/lsof -ti:$1`
+}
+
+# built in - increasing preference top to bottom
+export PATH="/Users/dean.radcliffe/.deno/bin:$PATH"
+export PATH=./node_modules/.bin:$PATH
+export PATH=$PATH:/usr/local/opt/python@3.9/libexec/bin
+
+# export GIT_PAGER='less -FXR'
+export GIT_PAGER=""
+
+cd src/pass-frontend
+
+# i really should not put these in .bash_aliases
+nvm use
+
+export VAULT_GITHUB_TOKEN="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"
